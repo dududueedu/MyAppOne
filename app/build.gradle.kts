@@ -58,7 +58,7 @@ dependencies {
     //implementation("androidx.compose.ui:ui")
     //implementation("androidx.compose.ui:ui-graphics")
     //implementation("androidx.compose.ui:ui-tooling-preview")
-    //implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
     // 2. Navegação com Compose (Navigation)
     implementation(libs.androidx.navigation.compose)
@@ -67,11 +67,12 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(platform(libs.androidx.compose.bom)) // ajuste a versão da BOM se necessário
+    implementation(libs.androidx.compose.material3)
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.runtime)
 }
-
-//[plugins]
-//android-application = { id = "com.android.application", version.ref = "agp" }
-//agp = "9.2.1"
