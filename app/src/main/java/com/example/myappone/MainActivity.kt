@@ -1,20 +1,44 @@
 package com.example.myappone
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myappone.data.MovieDataBase
+import com.example.myappone.data.MovieRepository
+import com.example.myappone.navigation.NavGraph
+import com.example.myappone.viewmodel.MovieViewModel
+import com.example.myappone.viewmodel.MovieViewModelFactory
+import androidx.compose.material3.MaterialTheme
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        // Inicializa o banco de dados
+        val database = MovieDataBase.getDatabase(applicationContext)
+
+        // Cria o Repository
+        val repository = MovieRepository(database.movieDao())
+
+        // Cria a Factory do ViewModel
+        val factory = MovieViewModelFactory(repository)
+
+        setContent {
+
+            MaterialTheme {
+
+                // Instancia o ViewModel
+                val movieViewModel: MovieViewModel = viewModel(
+                    factory = factory
+                )
+
+                // Inicia a navegação
+                NavGraph(
+                    viewModel = movieViewModel
+                )
+            }
         }
     }
 }
